@@ -1,12 +1,14 @@
 ## usage:
 
-1.  import the .js file to the tailwind.config.js:
+1. `npm i tailwindcss-clamp`
+
+2. import the function in the tailwind config:
 
 ```js
-const generateClampClasses = require('./clampgenerator.cjs')
+const generateClampClasses = require('tailwindcss-clamp')
 ```
 
-2. add the function to the extend section:
+3. add the function to the extend section:
 
 ```js
 theme: {
@@ -25,7 +27,7 @@ theme: {
 
 ## todo:
 
-- make this an npm package/plugin
+- make this a plugin instead of having it to paste into the extend section
 - add tests
-- add more options
 - work on better scaling options
+- add more config options

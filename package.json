@@ -1,0 +1,20 @@
+{
+  "name": "tailwindcss-clamp",
+  "version": "0.0.1",
+  "description": "generate fluid sizing options for tailwindcss",
+  "main": "clampgenerator.cjs",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/changethe/tailwindcss-clamp.git"
+  },
+  "keywords": [
+    "tailwindcss"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/changethe/tailwindcss-clamp/issues"
+  },
+  "homepage": "https://github.com/changethe/tailwindcss-clamp#readme"
+}
