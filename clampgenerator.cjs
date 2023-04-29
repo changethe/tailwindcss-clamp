@@ -6,7 +6,7 @@ module.exports = function (config) {
     scalingFinish: 1280,
   }
 
-  const { scalingStart, scalingFinish, spacing, fonts } = config
+  const { scalingStart, scalingFinish, spacing, fonts } = { ...defaultOptions, ...config }
 
   const generateClasses = (themeValues, options = {}) => {
     const { sortKeys } = options
@@ -41,10 +41,11 @@ module.exports = function (config) {
     return generatedClasses
   }
 
-  const spacingClasses = spacing
-    ? generateClasses(defaultTheme.spacing, { ...spacing, sortKeys: true })
-    : {}
-  const fontSizeClasses = fonts ? generateClasses(defaultTheme.fontSize, fonts) : {}
+  const spacingClasses = generateClasses(defaultTheme.spacing, {
+    ...(spacing || {}),
+    sortKeys: true,
+  })
+  const fontSizeClasses = generateClasses(defaultTheme.fontSize, fonts || {})
 
   return {
     spacing: spacingClasses,
