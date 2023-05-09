@@ -1,9 +1,9 @@
 const plugin = require('tailwindcss/plugin')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
-const tailwindClampPlugin = plugin(function ({ addUtilities, theme, config }) {
+function createTailwindClampPlugin(config = {}) {
   const defaultOptions = {
-    scalingStart: 400,
+    scalingStart: 320,
     scalingFinish: 1280,
   }
 
@@ -48,49 +48,51 @@ const tailwindClampPlugin = plugin(function ({ addUtilities, theme, config }) {
   }
   /****************************************************************************************************/
 
-  // Get the existing spacing values from the theme
-  const existingSpacing = theme('spacing')
+  return plugin(function ({ addUtilities, theme }) {
+    // Get the existing spacing values from the theme
+    const existingSpacing = theme('spacing')
 
-  const spacingClasses = generateClasses(
-    { ...defaultTheme.spacing, ...existingSpacing },
-    {
-      ...(spacing || {}),
-      sortKeys: true,
-    }
-  )
+    const spacingClasses = generateClasses(
+      { ...defaultTheme.spacing, ...existingSpacing },
+      {
+        ...(spacing || {}),
+        sortKeys: true,
+      }
+    )
 
-  const utilities = {}
+    const utilities = {}
 
-  Object.entries(spacingClasses).forEach(([key, value]) => {
-    // padding
-    utilities[`.p-${key}`] = { padding: value }
-    utilities[`.pt-${key}`] = { paddingTop: value }
-    utilities[`.pr-${key}`] = { paddingRight: value }
-    utilities[`.pb-${key}`] = { paddingBottom: value }
-    utilities[`.pl-${key}`] = { paddingLeft: value }
-    utilities[`.px-${key}`] = { paddingLeft: value, paddingRight: value }
-    utilities[`.py-${key}`] = { paddingTop: value, paddingBottom: value }
+    Object.entries(spacingClasses).forEach(([key, value]) => {
+      // padding
+      utilities[`.p-${key}`] = { padding: value }
+      utilities[`.pt-${key}`] = { paddingTop: value }
+      utilities[`.pr-${key}`] = { paddingRight: value }
+      utilities[`.pb-${key}`] = { paddingBottom: value }
+      utilities[`.pl-${key}`] = { paddingLeft: value }
+      utilities[`.px-${key}`] = { paddingLeft: value, paddingRight: value }
+      utilities[`.py-${key}`] = { paddingTop: value, paddingBottom: value }
 
-    // margin
-    utilities[`.m-${key}`] = { margin: value }
-    utilities[`.mt-${key}`] = { marginTop: value }
-    utilities[`.mr-${key}`] = { marginRight: value }
-    utilities[`.mb-${key}`] = { marginBottom: value }
-    utilities[`.ml-${key}`] = { marginLeft: value }
-    utilities[`.mx-${key}`] = { marginLeft: value, marginRight: value }
-    utilities[`.my-${key}`] = { marginTop: value, marginBottom: value }
+      // margin
+      utilities[`.m-${key}`] = { margin: value }
+      utilities[`.mt-${key}`] = { marginTop: value }
+      utilities[`.mr-${key}`] = { marginRight: value }
+      utilities[`.mb-${key}`] = { marginBottom: value }
+      utilities[`.ml-${key}`] = { marginLeft: value }
+      utilities[`.mx-${key}`] = { marginLeft: value, marginRight: value }
+      utilities[`.my-${key}`] = { marginTop: value, marginBottom: value }
 
-    // width & height
-    utilities[`.w-${key}`] = { width: value }
-    utilities[`.h-${key}`] = { height: value }
+      // width & height
+      utilities[`.w-${key}`] = { width: value }
+      utilities[`.h-${key}`] = { height: value }
 
-    // gaps
-    utilities[`.gap-${key}`] = { gap: value }
-    utilities[`.gap-x-${key}`] = { columnGap: value }
-    utilities[`.gap-y-${key}`] = { rowGap: value }
+      // gaps
+      utilities[`.gap-${key}`] = { gap: value }
+      utilities[`.gap-x-${key}`] = { columnGap: value }
+      utilities[`.gap-y-${key}`] = { rowGap: value }
+    })
+
+    addUtilities(utilities)
   })
+}
 
-  addUtilities(utilities)
-})
-
-module.exports = tailwindClampPlugin
+module.exports = createTailwindClampPlugin
