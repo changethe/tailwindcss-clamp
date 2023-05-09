@@ -3,7 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 function createTailwindClampPlugin(config = {}) {
   const defaultOptions = {
-    scalingStart: 320,
+    scalingStart: 400,
     scalingFinish: 1280,
   }
 
