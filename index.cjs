@@ -3,19 +3,20 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 const tailwindClampPlugin = plugin(function ({ addUtilities, theme, config }) {
   const defaultOptions = {
-    scalingStart: 320,
+    scalingStart: 400,
     scalingFinish: 1280,
   }
 
   const { scalingStart, scalingFinish, spacing } = { ...defaultOptions, ...config }
 
   /****************************************************************************************************
-   * generate clamp classes
+   * clamp classes generator
    ****************************************************************************************************/
 
   const generateClasses = (themeValues, options = {}) => {
     const { sortKeys } = options
 
+    // ignore the px key for now
     let spacingKeys = Object.keys(themeValues).filter((key) => key !== 'px')
 
     if (sortKeys) {
