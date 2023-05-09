@@ -9,6 +9,7 @@ currently generates them for:
 - gaps
 - heights
 - widths
+- positions
 
 ## usage:
 

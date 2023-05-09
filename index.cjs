@@ -87,6 +87,12 @@ function createTailwindClampPlugin(config = {}) {
       utilities[`.gap-${escapedKey}`] = { gap: value }
       utilities[`.gap-x-${escapedKey}`] = { columnGap: value }
       utilities[`.gap-y-${escapedKey}`] = { rowGap: value }
+
+      // position
+      utilities[`.left-${escapedKey}`] = { left: value }
+      utilities[`.right-${escapedKey}`] = { right: value }
+      utilities[`.top-${escapedKey}`] = { top: value }
+      utilities[`.bottom-${escapedKey}`] = { bottom: value }
     })
 
     addUtilities(utilities)
