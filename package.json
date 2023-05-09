@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-clamp",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "generate fluid sizing options for tailwindcss",
   "main": "index.cjs",
   "scripts": {},

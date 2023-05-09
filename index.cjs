@@ -9,10 +9,7 @@ function createTailwindClampPlugin(config = {}) {
 
   const { scalingStart, scalingFinish, spacing } = { ...defaultOptions, ...config }
 
-  /****************************************************************************************************
-   * clamp classes generator
-   ****************************************************************************************************/
-
+  /****************************************************************************************************/
   const generateClasses = (themeValues, options = {}) => {
     const { sortKeys } = options
 
@@ -47,7 +44,6 @@ function createTailwindClampPlugin(config = {}) {
     return generatedClasses
   }
   /****************************************************************************************************/
-
   return plugin(function ({ addUtilities, theme }) {
     // Get the existing spacing values from the theme
     const existingSpacing = theme('spacing')
@@ -63,32 +59,34 @@ function createTailwindClampPlugin(config = {}) {
     const utilities = {}
 
     Object.entries(spacingClasses).forEach(([key, value]) => {
+      const escapedKey = key.replace('.', '\\.')
+
       // padding
-      utilities[`.p-${key}`] = { padding: value }
-      utilities[`.pt-${key}`] = { paddingTop: value }
-      utilities[`.pr-${key}`] = { paddingRight: value }
-      utilities[`.pb-${key}`] = { paddingBottom: value }
-      utilities[`.pl-${key}`] = { paddingLeft: value }
-      utilities[`.px-${key}`] = { paddingLeft: value, paddingRight: value }
-      utilities[`.py-${key}`] = { paddingTop: value, paddingBottom: value }
+      utilities[`.p-${escapedKey}`] = { padding: value }
+      utilities[`.pt-${escapedKey}`] = { paddingTop: value }
+      utilities[`.pr-${escapedKey}`] = { paddingRight: value }
+      utilities[`.pb-${escapedKey}`] = { paddingBottom: value }
+      utilities[`.pl-${escapedKey}`] = { paddingLeft: value }
+      utilities[`.px-${escapedKey}`] = { paddingLeft: value, paddingRight: value }
+      utilities[`.py-${escapedKey}`] = { paddingTop: value, paddingBottom: value }
 
       // margin
-      utilities[`.m-${key}`] = { margin: value }
-      utilities[`.mt-${key}`] = { marginTop: value }
-      utilities[`.mr-${key}`] = { marginRight: value }
-      utilities[`.mb-${key}`] = { marginBottom: value }
-      utilities[`.ml-${key}`] = { marginLeft: value }
-      utilities[`.mx-${key}`] = { marginLeft: value, marginRight: value }
-      utilities[`.my-${key}`] = { marginTop: value, marginBottom: value }
+      utilities[`.m-${escapedKey}`] = { margin: value }
+      utilities[`.mt-${escapedKey}`] = { marginTop: value }
+      utilities[`.mr-${escapedKey}`] = { marginRight: value }
+      utilities[`.mb-${escapedKey}`] = { marginBottom: value }
+      utilities[`.ml-${escapedKey}`] = { marginLeft: value }
+      utilities[`.mx-${escapedKey}`] = { marginLeft: value, marginRight: value }
+      utilities[`.my-${escapedKey}`] = { marginTop: value, marginBottom: value }
 
       // width & height
-      utilities[`.w-${key}`] = { width: value }
-      utilities[`.h-${key}`] = { height: value }
+      utilities[`.w-${escapedKey}`] = { width: value }
+      utilities[`.h-${escapedKey}`] = { height: value }
 
       // gaps
-      utilities[`.gap-${key}`] = { gap: value }
-      utilities[`.gap-x-${key}`] = { columnGap: value }
-      utilities[`.gap-y-${key}`] = { rowGap: value }
+      utilities[`.gap-${escapedKey}`] = { gap: value }
+      utilities[`.gap-x-${escapedKey}`] = { columnGap: value }
+      utilities[`.gap-y-${escapedKey}`] = { rowGap: value }
     })
 
     addUtilities(utilities)
