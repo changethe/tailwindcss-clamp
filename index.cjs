@@ -1,20 +1,33 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultConfig = {
+  scalingStart: 400,
+  scalingFinish: 1280,
+}
 
 module.exports = function (config = {}) {
-  const defaultOptions = {
-    scalingStart: 400,
-    scalingFinish: 1280,
+  const { scalingStart, scalingFinish } = { ...defaultConfig, ...config }
+
+  /********************************** helpers **********************************/
+  const toRem = (value) => value / 16
+  const remRound = (value) => parseFloat(value.toFixed(3))
+  const vwRound = (value) => parseFloat(value.toFixed(2))
+
+  const generateClampValue = (startValue, finishValue) => {
+    const changeRate = (finishValue - startValue) / (toRem(scalingFinish) - toRem(scalingStart))
+    const relativeChange = 100 * changeRate
+    const preferred = finishValue - toRem(scalingFinish) * changeRate
+
+    // prettier-ignore
+    return `clamp(${startValue}rem, ${remRound(preferred)}rem + ${vwRound(relativeChange)}vw, ${finishValue}rem)`
   }
 
-  const { scalingStart, scalingFinish } = { ...defaultOptions, ...config }
-
+  /********************************** generate the classes **********************************/
   const generateClasses = (themeValues) => {
+    const generatedClasses = {}
+
     const spacingKeys = Object.keys(themeValues)
       .filter((key) => key !== 'px')
       .filter((key) => key !== '0')
       .sort((a, b) => parseFloat(a) - parseFloat(b) || a.localeCompare(b))
-
-    const generatedClasses = {}
 
     for (let i = 0; i < spacingKeys.length - 1; i++) {
       const startKey = spacingKeys[i]
@@ -26,18 +39,16 @@ module.exports = function (config = {}) {
         const finishValue = parseFloat(themeValues[finishKey])
 
         if (finishValue > startValue) {
-          const valueDifference = finishValue - startValue
-          const clampValue = `clamp(${startValue}rem, calc(${startValue}rem + ${valueDifference} * ((100vw - ${scalingStart}px) / (${
-            scalingFinish - scalingStart
-          }) * 16)), ${finishValue}rem)`
-
-          generatedClasses[`${startKey}-to-${finishKey}`] = clampValue
+          generatedClasses[`${startKey}-to-${finishKey}`] = generateClampValue(
+            startValue,
+            finishValue
+          )
         }
       }
     }
-
     return generatedClasses
   }
-
+  /****************************************************************************************************/
+  const defaultTheme = require('tailwindcss/defaultTheme')
   return generateClasses({ ...defaultTheme.spacing })
 }
